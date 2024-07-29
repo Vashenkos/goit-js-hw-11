@@ -1,41 +1,49 @@
-'use strict';
-const form = document.querySelector('form');
-const inputEl = form.elements.email;
-const textareaMessage = form.elements.message;
-const formSubmit = document.querySelector('button');
-const storageKey = 'feedback-form-state';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
-const formData = {
-  email: '',
-  message: '',
-};
+const gallery = document.querySelector('.gallery');
 
-const savedData = localStorage.getItem(storageKey);
-
-let parsedData = {};
-if (savedData) {
-  try {
-    parsedData = JSON.parse(savedData);
-  } catch (error) {}
+export function renderImages(images) {
+  const markup = images
+    .map(
+      ({
+        webformatURL,
+        largeImageURL,
+        tags,
+        likes,
+        views,
+        comments,
+        downloads,
+      }) => `
+    <li>
+      <a href="${largeImageURL}">
+        <img src="${webformatURL}" alt="${tags}" />
+      </a>
+      <div class="info">
+        <p>Likes:<br /><spann>${likes}</spann></p>
+        <p>Views:<br /><spann>${views}</spann></p>
+        <p>Comments:<br /><spann>${comments}</spann></p>
+        <p>Downloads:<br /><spann>${downloads}</spann></p>
+      </div>
+    </li>
+  `
+    )
+    .join('');
+  gallery.innerHTML = markup;
+  new SimpleLightbox('.gallery a', {
+    captionsData: 'alt',
+    captionDelay: 250,
+  }).refresh();
 }
-inputEl.value = parsedData.email || '';
-textareaMessage.value = parsedData.message || '';
 
-form.addEventListener('input', handleIput);
-form.addEventListener('submit', submitForm);
-function handleIput(event) {
-  formData.email = inputEl.value.trim();
-  formData.message = textareaMessage.value.trim();
-  localStorage.setItem(storageKey, JSON.stringify(formData));
+export function clearGallery() {
+  gallery.innerHTML = '';
 }
-function submitForm(event) {
-  event.preventDefault();
-  if (!inputEl.value || !textareaMessage.value) {
-    return alert('Fill please all fields');
-  }
-  console.log(formData);
-  localStorage.removeItem(storageKey);
-  formData.email = '';
-  formData.message = '';
-  form.reset();
+
+export function showLoader() {
+  document.querySelector('.loader').classList.remove('hidden');
+}
+
+export function hideLoader() {
+  document.querySelector('.loader').classList.add('hidden');
 }
