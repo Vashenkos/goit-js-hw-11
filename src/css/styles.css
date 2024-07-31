@@ -1,12 +1,4 @@
-/**
-  |============================
-  | include css partials with
-  | default @import url()
-  |============================
-*/
-@import url('./reset.css');
-@import url('./vite-promo.css');
-@import url('./header.css');
+/* -----------------form-style----------------- */
 
 body {
   display: flex;
@@ -85,6 +77,8 @@ body {
   background-color: #6c8cff;
 }
 
+/* -----------------gallery-style----------------- */
+
 .gallery {
   display: flex;
   flex-wrap: wrap;
@@ -141,6 +135,8 @@ body {
   font-weight: 400;
   line-height: 2;
 }
+
+/* -----------------css-loader----------------- */
 
 .loader {
   width: 16px;
